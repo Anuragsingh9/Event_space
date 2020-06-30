@@ -5,7 +5,7 @@ use App\Http\Requests\EventSpace;
 use Illuminate\Http\Request;
 use App\Event;
 use Ramsey\Uuid\Uuid;
-class EventSpaces extends Controller
+class EventSpaceController extends Controller
 {
     /**
      * Display a listing of the resource.

@@ -18,13 +18,13 @@ Route::get('/', function () {
 });
 
 
-Route::get('index','EventSpaces@index');
-Route::get('create','EventSpaces@create');
-Route::post('store','EventSpaces@store')->name('store');
-Route::get('show/{id}','EventSpaces@show');
-Route::get('edit/{id}','EventSpaces@edit');
-Route::post('update/{id}','EventSpaces@update');
-Route::get('delete/{id}','EventSpaces@destroy');
+Route::get('index','EventSpaceController@index');
+Route::get('create','EventSpaceController@create');
+Route::post('store','EventSpaceController@store')->name('store');
+Route::get('show/{id}','EventSpaceController@show');
+Route::get('edit/{id}','EventSpaceController@edit');
+Route::post('update/{id}','EventSpaceController@update');
+Route::get('delete/{id}','EventSpaceController@destroy');
 
 
 
