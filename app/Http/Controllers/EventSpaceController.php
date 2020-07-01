@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Requests\EventSpace;
+use App\Http\Requests\EventSpaceRequest;
 use Illuminate\Http\Request;
-use App\Event;
+use App\EventSpace;
 use Ramsey\Uuid\Uuid;
+use DB;
 class EventSpaceController extends Controller
 {
     /**
@@ -14,7 +15,7 @@ class EventSpaceController extends Controller
      */
     public function index()
     {
-        $event=Event::get();
+        $event=EventSpace::get();
         return $event;
     }
 
@@ -34,22 +35,38 @@ class EventSpaceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(EventSpace $request)
+    public function store(EventSpaceRequest $request)
     {
-        $event = Event::create([
-            'space_uuid'=>Uuid::uuid4(),
-            'space_name'=>$request->space_name,
-            'space_short_name'=>$request->space_short_name,
-            'space_mood'=>$request->space_mood,
-            'max_capacity' => $request->max_capacity,
-            'space_image_url'=>$request->space_image_url,
-            'space_icon_url'=>$request->space_icon_url,
-            'is_vip_space'=>$request->is_vip_space,
-            'opening_hours'=>$request->opening_hours,
-            'event_id'=>$request->event_id,
-            'tags'=>$request->tags,
-        ]);
-        return $event;
+        $success = true;
+        DB::beginTransaction();
+        try{
+            $event = EventSpace::create([
+                'space_uuid'=>Uuid::uuid4(),
+                'space_name'=>$request->space_name,
+                'space_short_name'=>$request->space_short_name,
+                'space_mood'=>$request->space_mood,
+                'max_capacity' => $request->max_capacity,
+                'space_image_url'=>$request->space_image_url,
+                'space_icon_url'=>$request->space_icon_url,
+                'is_vip_space'=>$request->is_vip_space,
+                'opening_hours'=>$request->opening_hours,
+                'event_id'=>$request->event_id,
+                'tags'=>$request->tags,
+            ]);
+            DB::commit();
+        }catch(\Exception $e){
+            DB::rollback();
+            $success = false;
+        }
+
+        if($success){
+            return $event;
+        }
+    
+        else{
+            return response()->json(['status' => false, 'message' => 'Event Not Created']);
+        }
+        
     
     }
 
@@ -61,8 +78,13 @@ class EventSpaceController extends Controller
      */
     public function show(Request $request,$id)
     {
-        $event = Event::where('id','=', $request->id)->first();
-        return $event;
+        try{
+            $event = EventSpace::where('id','=', $request->id)->first();
+            return $event;
+        }catch(\Exception $e){
+            return response()->json(['status' => false, 'message' => 'No Event Found']);
+        }
+       
     }
 
     /**
@@ -73,8 +95,13 @@ class EventSpaceController extends Controller
      */
     public function edit(Request $request,$id)
     {
-        $event = Event::where('id','=', $request->id)->first();
-        return view('update',compact('event'));
+        try{
+            $event = EventSpace::where('id','=', $request->id)->first();
+            return view('update',compact('event'));
+        }catch(\Exception $e){
+            return response()->json(['status' => false, 'message' => 'No Event Found']);
+        }
+        
     }
 
     /**
@@ -84,23 +111,28 @@ class EventSpaceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(EventSpace $request, $id)
+    public function update(EventSpaceRequest $request, $id)
     {
-        $event =  Event::where('id','=',$id)->first();
-        $event->update([
-            'space_uuid'=>Uuid::uuid4(),
-            'space_name'=>$request->space_name,
-            'space_short_name'=>$request->space_short_name,
-            'space_mood'=>$request->space_mood,
-            'max_capacity' => $request->max_capacity,
-            'space_image_url'=>$request->space_image_url,
-            'space_icon_url'=>$request->space_icon_url,
-            'is_vip_space'=>$request->is_vip_space,
-            'opening_hours'=>$request->opening_hours,
-            'event_id'=>$request->event_id,
-            'tags'=>$request->tags,
-        ]);
-        return $event;
+        try{
+            $event =  EventSpace::where('id','=',$id)->first();
+            $event->update([
+                'space_uuid'=>Uuid::uuid4(),
+                'space_name'=>$request->space_name,
+                'space_short_name'=>$request->space_short_name,
+                'space_mood'=>$request->space_mood,
+                'max_capacity' => $request->max_capacity,
+                'space_image_url'=>$request->space_image_url,
+                'space_icon_url'=>$request->space_icon_url,
+                'is_vip_space'=>$request->is_vip_space,
+                'opening_hours'=>$request->opening_hours,
+                'event_id'=>$request->event_id,
+                'tags'=>$request->tags,
+            ]);
+            return $event;
+        }catch(\Exception $e){
+            return response()->json(['status' => false, 'message' => 'Event Not Updated']);
+        }
+       
     }
 
     /**
@@ -111,8 +143,14 @@ class EventSpaceController extends Controller
      */
     public function destroy($id)
     {
-        $event = Event::where('id','=',$id)->first();
-                 $event->delete();
-                return $event;
+        try{
+            $event = EventSpace::where('id','=',$id)->first();
+            $event->delete();
+           return $event;
+        }catch(\Exception $e){
+            return response()->json(['status' => false, 'message' => 'Event Not Deleted']);
+        }
+       
     }
 }
+

@@ -4,7 +4,7 @@ namespace App;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\UsesUuid;
-class Event extends Model
+class EventSpace extends Model
 {
     use UsesUuid;
     use SoftDeletes;
