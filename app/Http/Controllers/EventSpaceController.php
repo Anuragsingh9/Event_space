@@ -6,8 +6,13 @@ use Illuminate\Http\Request;
 use App\EventSpace;
 use Ramsey\Uuid\Uuid;
 use DB;
+use App\Services\EventSpaceService;
 class EventSpaceController extends Controller
 {
+    public function __construct()
+    {   
+           $this->service=new EventSpaceService();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -40,7 +45,9 @@ class EventSpaceController extends Controller
         $success = true;
         DB::beginTransaction();
         try{
-            $event = EventSpace::create([
+            EventSpaceService::getInstance();
+
+            $param =[
                 'space_uuid'=>Uuid::uuid4(),
                 'space_name'=>$request->space_name,
                 'space_short_name'=>$request->space_short_name,
@@ -52,7 +59,8 @@ class EventSpaceController extends Controller
                 'opening_hours'=>$request->opening_hours,
                 'event_id'=>$request->event_id,
                 'tags'=>$request->tags,
-            ]);
+            ];
+           $this->service->create($param);
             DB::commit();
         }catch(\Exception $e){
             DB::rollback();
@@ -60,7 +68,7 @@ class EventSpaceController extends Controller
         }
 
         if($success){
-            return $event;
+            return "Record Created";
         }
     
         else{
@@ -113,9 +121,14 @@ class EventSpaceController extends Controller
      */
     public function update(EventSpaceRequest $request, $id)
     {
+        $success = true;
+        DB::beginTransaction();
         try{
-            $event =  EventSpace::where('id','=',$id)->first();
-            $event->update([
+            EventSpaceService::getInstance();
+
+            $param =  EventSpace::where('id','=',$id)->first();
+
+            $param =[
                 'space_uuid'=>Uuid::uuid4(),
                 'space_name'=>$request->space_name,
                 'space_short_name'=>$request->space_short_name,
@@ -127,10 +140,20 @@ class EventSpaceController extends Controller
                 'opening_hours'=>$request->opening_hours,
                 'event_id'=>$request->event_id,
                 'tags'=>$request->tags,
-            ]);
-            return $event;
+            ];
+           $this->service->update($param);
+
+           DB::commit();
         }catch(\Exception $e){
-            return response()->json(['status' => false, 'message' => 'Event Not Updated']);
+            DB::rollback();
+            $success = false;
+            
+        if($success){
+            return "Record Created";
+        }
+        else{
+            return response()->json(['status' => false, 'message' => 'Event Not Created']);
+            }
         }
        
     }
@@ -153,4 +176,5 @@ class EventSpaceController extends Controller
        
     }
 }
+
 
