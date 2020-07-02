@@ -16,22 +16,30 @@
         </ul>
     </div>
 @endif
-<form action="{{route('store')}}" method="post" enctype="multipart/form-data">
-        @csrf
-        space_name:<input type="text" name="space_name">
-        space_short_name:<input type="text" name="space_short_name">
-        space_mood:<input type="text" name="space_mood">
-        max_capacity:<input type="text" name="max_capacity">
-        space_image_url:<input type="text" name="space_image_url"> 
-        space_icon_url:<input type="text" name="space_icon_url">
-        is_vip_space:<input type="text" name="is_vip_space">
-        opening_hours:<input type="text" name="opening_hours">
-        event_id:<input type="text" name="event_id">
-        tags:<input type="text" name="tags">
 
-         {{-- State:<input type="text" name="state">
-        Pincode:<input type="text" name="pincode"><br>
-        Adhar:<input type="text" name="adhar">  --}}
+<form action="{{route('store')}}" method="post" enctype="multipart/form-data">
+{{-- <form action="" method="post" enctype="multipart/form-data"> --}}
+
+        @csrf
+        title:<input type="text" name="title">
+        header_text:<input type="text" name="header_text">
+        space_mood:<input type="text" name="space_mood">
+        description:<input type="text" name="description">
+        date:<input type="date" name="date"> 
+        start_time:<input type="text" name="start_time">
+        end_time:<input type="text" name="end_time">
+        address:<input type="text" name="address">
+        city:<input type="text" name="city">
+        image:<input type="file" name="image">
+        type:<input type="text" name="type">
+        workshop_id:<input type="text" name="workshop_id">
+        bluejeans_settings:<input type="text" name="tags">
+        event_fields:<input type="text" name="tags">
+       
+
+
+        
+        
         <button type="submit">Click</button>
 
     </form>

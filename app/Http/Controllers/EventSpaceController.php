@@ -126,7 +126,8 @@ class EventSpaceController extends Controller
         try{
             EventSpaceService::getInstance();
 
-            $param =  EventSpace::where('id','=',$id)->first();
+            // $param =  EventSpace::where('id','=',$id)->first();
+            // $param = $id;
 
             $param =[
                 'space_uuid'=>Uuid::uuid4(),
@@ -141,7 +142,9 @@ class EventSpaceController extends Controller
                 'event_id'=>$request->event_id,
                 'tags'=>$request->tags,
             ];
-           $this->service->update($param);
+        //    dd($param->id);
+
+           $this->service->update($param,$id);
 
            DB::commit();
         }catch(\Exception $e){

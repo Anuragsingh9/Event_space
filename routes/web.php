@@ -18,15 +18,22 @@ Route::get('/', function () {
 });
 
 
-Route::get('index','EventSpaceController@index');
-Route::get('create','EventSpaceController@create');
-Route::post('store','EventSpaceController@store')->name('store');
-Route::get('show/{id}','EventSpaceController@show');
-Route::get('edit/{id}','EventSpaceController@edit');
-Route::post('update/{id}','EventSpaceController@update');
-Route::get('delete/{id}','EventSpaceController@destroy');
+// Route::get('index','EventSpaceController@index');
+// Route::get('create','EventSpaceController@create');
+// Route::post('store','EventSpaceController@store')->name('store');
+// Route::get('show/{id}','EventSpaceController@show');
+// Route::get('edit/{id}','EventSpaceController@edit');
+// Route::post('update/{id}','EventSpaceController@update');
+// Route::get('delete/{id}','EventSpaceController@destroy');
 
-
+Route::get('create','BluejeansController@create');
+Route::get('index','BluejeansController@index');
+Route::get('create','BluejeansController@create');
+Route::post('store','BluejeansController@store')->name('store');
+Route::get('show/{id}','BluejeansController@show');
+Route::get('edit/{id}','BluejeansController@edit');
+Route::post('update/{id}','BluejeansController@update');
+Route::get('delete/{id}','BluejeansController@destroy');
 
 
 

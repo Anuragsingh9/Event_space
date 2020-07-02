@@ -25,9 +25,8 @@ class EventSpaceService {
         return $event;
     }
 
-    public function update($param) {
-        dd($param);
-        $event = EventSpace::update($param);
+    public function update($param,$id) { 
+        $event = EventSpace::where('id','=',$id)->first()->update($param);
         if (!$event){
         throw new Exception();  // to throw the error instead of null so proper message can be shown// to throw exception so that proper msg can be shown
 
