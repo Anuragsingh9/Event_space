@@ -1,14 +1,14 @@
 <?php
 
-namespace Modules\Cocktail\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\Cocktail\Http\Requests\KeepContactRequest;
-use Modules\Cocktail\Services\CocktailEventService;
+// use Modules\Cocktail\Http\Requests\KeepContactRequest;
+use App\Services\CocktailEventService;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Modules\Events\Entities\Event;
+// use Modules\Events\Entities\Event;
 use Ramsey\Uuid\Uuid;
 
 class CocktailEventController extends Controller {
@@ -28,7 +28,6 @@ class CocktailEventController extends Controller {
 //            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error'], 200);
 //        }
 //    }
-    
     public function updateKeepContactSetting(KeepContactRequest $request) {
         try {
             DB::connection('tenant')->beginTransaction();
@@ -63,11 +62,8 @@ class CocktailEventController extends Controller {
                     'reply_text'                => $request->reply_text,
                     'keepContact_section_line1' => $request->keepContact_section_line1,
                     'keepContact_section_line2' => $request->keepContact_section_line2,
-                ],
-                'registration'       => [
-                    'display'                   =>$request->display, 
-                    'title'                     =>$request->title,
-                ],
+                ]
+               
             ];
             $event = $this->service->updateKeepContactSetting($param, $request->event_id);
             DB::connection('tenant')->commit();
@@ -118,6 +114,28 @@ class CocktailEventController extends Controller {
         }catch(\Exception $e){
             DB::rollback();
         }
+    }
+
+    public function updateRegistrationFormDetail(Request $request){
+
+        DB::beginTransaction();
+        try{
+            $param =[
+                    'display'                   =>$request->display, 
+                    'title'                     =>$request->title,
+                    'points'                     =>$request->points,
+                    'event_id'                     =>$request->event_id,
+
+            ];
+            
+            $event = $this->service->updateRegistrationForm($param, $request->event_id);
+
+            return $event;
+            DB::commit();
+        }catch(\Exception $e){
+            DB::rollback();
+        }
+
     }
  
 

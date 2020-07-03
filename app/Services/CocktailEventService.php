@@ -1,11 +1,21 @@
 <?php
 
-namespace Modules\Cocktail\Services;
-
+namespace App\Services;
+use App\BlueJeans;
 use App\Services\Service;
-use Modules\Events\Entities\Event;
+// use Modules\Events\Entities\Event;
 
-class CocktailEventService extends Service {
+// class CocktailEventService extends Service {
+class CocktailEventService {
+
+    public static function getInstance()
+    {
+        static $instance = NULL;
+        if (NULL === $instance) {
+            $instance = new static();
+        }
+        return $instance;
+    }
     /**
      * For updating the keep contact setting to set the
      * event_fields = [
@@ -19,9 +29,15 @@ class CocktailEventService extends Service {
      * @return Event
      */
     public function updateKeepContactSetting($param, $eventId) {
+
         return $this->addOrUpdateEventField(Event::find($eventId), 'keepContact', $param);
     }
     
+    public function updateRegistrationForm($param, $eventId) {
+
+        return $this->addOrUpdateEventField(BlueJeans::find($eventId), 'registration_form', $param);
+
+    }
     /**
      * to set the fields in event_fields column like
      * event_fields = [
@@ -39,11 +55,14 @@ class CocktailEventService extends Service {
      * @return Event
      */
     public function addOrUpdateEventField($event, $fieldName, $value) {
+
+        // $oldData = $event->event_fields;
         $oldData = $event->event_fields;
         $oldData[$fieldName] = $value;
         // uncomment following if shows array to string conversion
         // $oldData = json_encode($oldData, true);
         $event->update(['event_fields' => $oldData,]);
+// dd($event);
         return $event;
     }
     

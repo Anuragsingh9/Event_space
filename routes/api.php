@@ -18,4 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::Put('keepContact','CocktailEventController@updateKeepContactSetting');
+Route::post('update/registrationform', 'CocktailEventController@updateRegistrationFormDetail');
+Route::post('newUser/eventuser','EventUserController@eventNewUser');
