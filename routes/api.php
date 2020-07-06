@@ -20,3 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('update/registrationform', 'CocktailEventController@updateRegistrationFormDetail');
 Route::post('newUser/eventuser','EventUserController@eventNewUser');
+Route::post('newUser/UpdateEventUserPresenter','EventUserController@UpdateEventUserPresenter');
+Route::post('newUser/UpdateEventModerator','EventUserController@UpdateEventUserModerator');
+Route::get('newUser/showUserEvent','EventUserController@showUserEvents');

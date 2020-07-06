@@ -35,6 +35,10 @@ Route::get('edit/{id}','BluejeansController@edit');
 Route::post('update/{id}','BluejeansController@update');
 Route::get('delete/{id}','BluejeansController@destroy');
 
+Route::post('newUser/eventuser','EventUserController@eventNewUser');
+Route::get('newUser/index','EventUserController@index');
+Route::post('newUser/UpdateEventUser','EventUserController@UpdateEventUserDetails')->name('update');
+
 
 
 

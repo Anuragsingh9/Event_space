@@ -17,16 +17,17 @@
     </div>
 @endif
 
-<form action="{{route('store')}}" method="post" enctype="multipart/form-data">
+<form action="{{route('update')}}" method="post" enctype="multipart/form-data">
 {{-- <form action="" method="post" enctype="multipart/form-data"> --}}
 
         @csrf
-        title:<input type="text" name="title">
-        header_text:<input type="text" name="header_text">
-        space_mood:<input type="text" name="space_mood">
-        description:<input type="text" name="description">
-        date:<input type="date" name="date"> 
-        start_time:<input type="text" name="start_time">
+        event_id:<input type="text" name="event_id">
+        user_id:<input type="text" name="user_id">
+        is_presenter:<input type="text" name="is_presenter">
+        is_moderator:<input type="text" name="is_moderator">
+        state:<input type="text" name="state"> 
+
+        {{-- start_time:<input type="text" name="start_time">
         end_time:<input type="text" name="end_time">
         address:<input type="text" name="address">
         city:<input type="text" name="city">
@@ -34,7 +35,7 @@
         type:<input type="text" name="type">
         workshop_id:<input type="text" name="workshop_id">
         bluejeans_settings:<input type="text" name="tags">
-        event_fields:<input type="text" name="tags">
+        event_fields:<input type="text" name="tags"> --}}
        
 
 
