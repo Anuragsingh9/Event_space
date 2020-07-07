@@ -29,7 +29,7 @@ Route::get('/', function () {
 Route::get('create','BluejeansController@create');
 Route::get('index','BluejeansController@index');
 Route::get('create','BluejeansController@create');
-Route::post('store','BluejeansController@store')->name('store');
+Route::post('store','BluejeansController@store')->name('storee');
 Route::get('show/{id}','BluejeansController@show');
 Route::get('edit/{id}','BluejeansController@edit');
 Route::post('update/{id}','BluejeansController@update');

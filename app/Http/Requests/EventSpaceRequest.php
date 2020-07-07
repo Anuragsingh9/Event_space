@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 use App\Rules\Alpha;
-
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EventSpaceRequest extends FormRequest
@@ -17,6 +19,11 @@ class EventSpaceRequest extends FormRequest
         return true;
     }
 
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json($validator->errors(), 422));
+    }
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,6 +31,7 @@ class EventSpaceRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
             'space_name'=>['required','min:10','max:40',new Alpha],
             'space_short_name'=>['required','min:10','max:40',new Alpha],
@@ -31,11 +39,14 @@ class EventSpaceRequest extends FormRequest
             'max_capacity'=>'required|numeric|min:10|max:20',
             // 'space_image_url'=>'required|url',
             // 'space_icon_url'=>'required|url',
-            'is_vip_space'=>'required|numeric|min:10|max:20',
-            'opening_hours'=>'required',
-            'event_id'=>'required|numeric|min:10|max:20',
+            'is_vip_space'=>'required|in:0,1',
+            'opening_hours'=>'required|date_format:H:i',
+            'event_id'=>['required',Rule::exists('event_spaces', 'id')->where(function ($query) {
+                $query->whereNull('deleted_at');
+            })],
             'tags'=>['required','min:10','max:40',new Alpha],
 
         ];
     }
 }
+

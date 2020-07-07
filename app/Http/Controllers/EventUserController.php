@@ -109,7 +109,7 @@ class EventUserController extends Controller{
     }
 
     public function showUserEvents(){
-        $showEvent=EventUser::find(2);
+        $showEvent=EventUser::get();
         return  UserEventResource::collection($showEvent);
     }
 

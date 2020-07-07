@@ -114,7 +114,7 @@ class CocktailEventController extends Controller {
         }catch(\Exception $e){
             DB::rollback();
         }
-    }
+    } 
 
     public function updateRegistrationFormDetail(Request $request){
 

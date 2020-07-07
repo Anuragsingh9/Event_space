@@ -1,7 +1,8 @@
 <?php
 namespace App\Services;
 use App\EventSpace;
-
+use App\Http\Resources\EventSpaceResource;
+use App\Http\Controllers\EventSpaceController;
 class EventSpaceService {
     public static function getInstance()
     {
@@ -15,26 +16,21 @@ class EventSpaceService {
     public function create($param) {
         $event = EventSpace::create($param);
         if (!$event){
-        throw new Exception();  // to throw the error instead of null so proper message can be shown// to throw exception so that proper msg can be shown
+            throw new Exception();  // to throw the error instead of null so proper message can be shown// to throw exception so that proper msg can be shown
 
         }
         else{
-           return $event;
-
+            return $event;
         }
-        return $event;
     }
 
     public function update($param,$id) { 
-        $event = EventSpace::where('id','=',$id)->first()->update($param);
-        if (!$event){
-        throw new Exception();  // to throw the error instead of null so proper message can be shown// to throw exception so that proper msg can be shown
-
+        $update = EventSpace::where('id','=',$id)->first()->update($param);
+        if (!$update){
+            throw new Exception();  // to throw the error instead of null so proper message can be shown// to throw exception so that proper msg can be shown
         }
         else{
-           return $event;
-
+            return $update;
         }
-        return $event;
     }
 }
