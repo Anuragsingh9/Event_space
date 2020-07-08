@@ -20,10 +20,15 @@ class EventSpaceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function showEvent($event_id)
     {
-        $event=EventSpace::paginate();
-        return  EventSpaceResource::collection($event);
+        try{
+            $event=EventSpace::get()->where('event_id','=',$event_id);
+            return  EventSpaceResource::collection($event)->additional(['status'=>true]);
+        }catch(\Exception $e){
+            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 200);
+        }
+       
     }
 
     /**
@@ -35,7 +40,7 @@ class EventSpaceController extends Controller
     public function store(EventSpaceRequest $request)
     {
         $success = true;
-        DB::beginTransaction();
+        DB::connection('tenant')->beginTransaction();
         try{
             EventSpaceService::getInstance();
 
@@ -53,14 +58,17 @@ class EventSpaceController extends Controller
                 'tags'=>$request->tags,
             ];
           $event= $this->service->create($param);
-            DB::commit();
+          DB::connection('tenant')->commit();
         }catch(\Exception $e){
-            DB::rollback();
+            DB::connection('tenant')->rollback();
             $success = false;
+            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 200);
+
         }
 
         if($success){
-            return new EventSpaceResource($event);    
+            return new EventSpaceResource($event);  
+            // return EventSpaceResource::collection($event)->additional(['status'=>true]);  
         }
         else{
             return response()->json(['status' => false, 'message' => 'Event Not Created']);
@@ -77,7 +85,7 @@ class EventSpaceController extends Controller
     public function update(EventSpaceRequest $request, $id)
     {
         $success = true;
-        DB::beginTransaction();
+        DB::connection('tenant')->beginTransaction();
         try{
             EventSpaceService::getInstance();
             $param =[
@@ -94,10 +102,12 @@ class EventSpaceController extends Controller
                 'tags'=>$request->tags,
             ];
         $update=$this->service->update($param,$id);
-           DB::commit();
+        DB::connection('tenant')->commit();
         }catch(\Exception $e){
-            DB::rollback();
+            DB::connection('tenant')->rollback();
             $success = false;
+            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 200);
+
             
         if($success){
             return new EventSpaceResource($update);

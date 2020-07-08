@@ -1,18 +1,16 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-class CreateEventUserDataTable extends Migration
-{
+class CreateEventUserData extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('event_user_data', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('event_id');
@@ -23,14 +21,12 @@ class CreateEventUserDataTable extends Migration
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('event_user_data');
     }
 }

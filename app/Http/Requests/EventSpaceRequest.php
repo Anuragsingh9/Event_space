@@ -41,7 +41,7 @@ class EventSpaceRequest extends FormRequest
             // 'space_icon_url'=>'required|url',
             'is_vip_space'=>'required|in:0,1',
             'opening_hours'=>'required|date_format:H:i',
-            'event_id'=>['required',Rule::exists('event_spaces', 'id')->where(function ($query) {
+            'event_id'=>['required',Rule::exists('tenant.event_spaces', 'id')->where(function ($query) {
                 $query->whereNull('deleted_at');
             })],
             'tags'=>['required','min:10','max:40',new Alpha],

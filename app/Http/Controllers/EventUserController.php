@@ -15,7 +15,7 @@ class EventUserController extends Controller{
     public function eventNewUser(Request $request)
     {
         $success = true;
-        DB::beginTransaction();
+        DB::connection('tenant')->beginTransaction();
         try{
 
             EventUserService::getInstance();
@@ -29,10 +29,12 @@ class EventUserController extends Controller{
             ];
 
            $this->service->AddEventUser($param);
-            DB::commit();
+           DB::connection('tenant')->commit();
         }catch(\Exception $e){
-            DB::rollback();
+            DB::connection('tenant')->rollback();
             $success = false;
+            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 200);
+
         }
 
         if($success){
@@ -49,7 +51,7 @@ class EventUserController extends Controller{
     public function UpdateEventUserPresenter(Request $request)
     {
         $success = true;
-        DB::beginTransaction();
+        DB::connection('tenant')->beginTransaction();
         try{
 
             EventUserService::getInstance();
@@ -62,10 +64,12 @@ class EventUserController extends Controller{
                 'state' => $request->state,
             ];
            $this->service->UpdateEventUser($param,$request->user_id);
-            DB::commit();
+           DB::connection('tenant')->commit();
         }catch(\Exception $e){
-            DB::rollback();
+            DB::connection('tenant')->rollback();
             $success = false;
+            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 200);
+
         }
 
         if($success){
@@ -82,7 +86,7 @@ class EventUserController extends Controller{
     public function UpdateEventUserModerator(Request $request)
     {
         $success = true;
-        DB::beginTransaction();
+        DB::connection('tenant')->beginTransaction();
         try{
 
             EventUserService::getInstance();
@@ -95,10 +99,12 @@ class EventUserController extends Controller{
                 'state' => $request->state,
             ];
            $this->service->UpdateEventModerator($param,$request->user_id);
-            DB::commit();
+           DB::connection('tenant')->commit();
         }catch(\Exception $e){
-            DB::rollback();
+            DB::connection('tenant')->rollback();
             $success = false;
+            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 200);
+
         }
         if($success){
             return "Record Created";
@@ -109,9 +115,17 @@ class EventUserController extends Controller{
     }
 
     public function showUserEvents(){
-        $showEvent=EventUser::get();
-        return  UserEventResource::collection($showEvent);
+        try{
+            $showEvent=EventUser::get();
+            return  UserEventResource::collection($showEvent)->additional(['status'=>true]);
+        }catch(\Exception $e){
+            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 200);
+
+        }
+       
     }
 
 
 }
+
+

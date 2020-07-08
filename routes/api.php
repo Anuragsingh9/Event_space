@@ -25,8 +25,10 @@ Route::post('newUser/UpdateEventModerator','EventUserController@UpdateEventUserM
 Route::get('newUser/showUserEvent','EventUserController@showUserEvents');
 
 // Route::post('eventStore','EventSpaceController@store');
-Route::post('eventStore/create/{id}','EventSpaceController@store');
+// Route::post('eventStore/create/{id}','EventSpaceController@store');
+Route::post('eventStore','EventSpaceController@store');
+
 
 Route::post('eventStore/update/{id}','EventSpaceController@update');
-Route::get('eventStore/show','EventSpaceController@index');
+Route::get('eventStore/show/{event_id}','EventSpaceController@showEvent');
 

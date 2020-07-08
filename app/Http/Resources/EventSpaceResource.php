@@ -16,7 +16,7 @@ class EventSpaceResource extends JsonResource
     {
 
         return [
-            'space_nameeee'=>$this->space_name,
+            'space_name'=>$this->space_name,
             'space_short_name'=>$this->space_short_name,
             'space_mood'=>$this->space_mood,
             'max_capacity' => $this->max_capacity,
