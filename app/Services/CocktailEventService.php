@@ -27,15 +27,15 @@ class CocktailEventService {
      * @param $param
      * @param $eventId
      * @return Event
-     */
-    public function updateKeepContactSetting($param, $eventId) {
+     */ 
+    public function updateKeepContactSetting($param, $event_uuid) {
 
-        return $this->addOrUpdateEventField(Event::find($eventId), 'keepContact', $param);
+        return $this->addOrUpdateEventField(Event::find($event_uuid), 'keepContact', $param);
     }
     
-    public function updateRegistrationForm($param, $eventId) {
+    public function updateRegistrationForm($param, $event_uuid) {
 
-        return $this->addOrUpdateEventField(BlueJeans::find($eventId), 'registration_form', $param);
+        return $this->addOrUpdateEventField(BlueJeans::find($event_uuid), 'registration_form', $param);
 
     }
     /**

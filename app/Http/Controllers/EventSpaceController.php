@@ -23,7 +23,7 @@ class EventSpaceController extends Controller
     public function showEvent($event_id)
     {
         try{
-            $event=EventSpace::get()->where('event_id','=',$event_id);
+            $event=EventSpace::get()->where('event_uuid','=',$event_id);
             return  EventSpaceResource::collection($event)->additional(['status'=>true]);
         }catch(\Exception $e){
             return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 200);
@@ -40,7 +40,9 @@ class EventSpaceController extends Controller
     public function store(EventSpaceRequest $request)
     {
         $success = true;
-        DB::connection('tenant')->beginTransaction();
+        // DB::connection('tenant')->beginTransaction();
+        DB::beginTransaction();
+
         try{
             EventSpaceService::getInstance();
 
@@ -54,13 +56,17 @@ class EventSpaceController extends Controller
                 'space_icon_url'=>$request->space_icon_url,
                 'is_vip_space'=>$request->is_vip_space,
                 'opening_hours'=>$request->opening_hours,
-                'event_id'=>$request->event_id,
+                // 'event_uuid'=>Uuid::uuid4(),
                 'tags'=>$request->tags,
             ];
           $event= $this->service->create($param);
-          DB::connection('tenant')->commit();
+        //   DB::connection('tenant')->commit();
+          DB::commit();
+
         }catch(\Exception $e){
-            DB::connection('tenant')->rollback();
+            // DB::connection('tenant')->rollback();
+            DB::rollback();
+
             $success = false;
             return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 200);
 
@@ -98,7 +104,7 @@ class EventSpaceController extends Controller
                 'space_icon_url'=>$request->space_icon_url,
                 'is_vip_space'=>$request->is_vip_space,
                 'opening_hours'=>$request->opening_hours,
-                'event_id'=>$request->event_id,
+                'event_uuid'=>Uuid::uuid4(),
                 'tags'=>$request->tags,
             ];
         $update=$this->service->update($param,$id);

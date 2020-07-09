@@ -1,24 +1,26 @@
 <?php
 
 namespace App;
-
+use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use App\Traits\Uuids;
 class BlueJeans extends Model
 {
+    use Uuids;
     use SoftDeletes;
     protected $casts= [
         'event_fields' => 'array',
         'bluejeans_settings' => 'array',
     ];    
-    
+    protected $uuidColumns=['event_uuid'];
+
     protected $table = 'event_info';
     protected $fillable = [
         'title',
         'header_text',
         'description',
-        'date',
+        'date', 
         'start_time',
         'end_time',
         'address',
@@ -32,8 +34,11 @@ class BlueJeans extends Model
         'territory_value',
         'event_key',
         'bluejeans_settings',
-        'event_fields'
+        'event_fields',
+        'event_uuid'
     ];
+
+
 
 }
  

@@ -57,6 +57,7 @@ class CocktailEventController extends Controller {
                     'keepContact_thumbnail_color'            => json_decode($request->keepContact_thumbnail_color, TRUE),
                     'keepContact_countdown_background_color' => json_decode($request->keepContact_countdown_background_color, TRUE),
                     'keepContact_countdown_text_color'       => json_decode($request->keepContact_countdown_text_color, TRUE),
+                    'hover_border_color'                     => json_decode($request->hover_border_color, TRUE),
                 ],
                 'section_text'       => [
                     'reply_text'                => $request->reply_text,
@@ -123,8 +124,8 @@ class CocktailEventController extends Controller {
             $param =[
                     'display'                   =>$request->display, 
                     'title'                     =>$request->title,
-                    'points'                     =>$request->points,
-                    'event_id'                     =>$request->event_id,
+                    'points'                    =>$request->points,
+                    'event_uuid'                =>$request->event_uuid,
 
             ];
             

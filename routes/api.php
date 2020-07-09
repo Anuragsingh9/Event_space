@@ -32,3 +32,4 @@ Route::post('eventStore','EventSpaceController@store');
 Route::post('eventStore/update/{id}','EventSpaceController@update');
 Route::get('eventStore/show/{event_id}','EventSpaceController@showEvent');
 
+Route::post('addorupdate','CocktailEventController@updateRegistrationFormDetail');

@@ -16,6 +16,7 @@ class EventSpaceResource extends JsonResource
     {
 
         return [
+            'space_uuid'=>$this->space_uuid,
             'space_name'=>$this->space_name,
             'space_short_name'=>$this->space_short_name,
             'space_mood'=>$this->space_mood,
@@ -24,7 +25,7 @@ class EventSpaceResource extends JsonResource
             'space_icon_url'=>$this->space_icon_url,
             'is_vip_space'=>$this->is_vip_space,
             'opening_hours'=>$this->opening_hours,
-            'event_id'=>$this->event_id,
+            'event_uuid'=>$this->event_uuid,
             'tags'=>$this->tags,
         ];
     }

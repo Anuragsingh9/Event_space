@@ -34,6 +34,3 @@ class AlterEventConversationMember extends Migration {
 }
 
 
-// added to tenant connection to codes.
-// created api for space list for a particular event
-// setup all migrations files and imported sql file of project.
