@@ -48,8 +48,8 @@ class EventSpaceRequest extends FormRequest
             'tags'                  =>['required',
                                         'min:' . config('cocktail.validations.space.tags_min'),
                                         'max:'. config('cocktail.validations.space.tags_max'),new Alpha],
-            'space_image_url'       =>'required|url',
-            'space_icon_url'        =>'required|url',
+            // 'space_image_url'       =>'required|url',
+            // 'space_icon_url'        =>'required|url',
             'is_vip_space'          =>'required|in:0,1',
             'opening_hours'         =>'required|date_format:H:i',
             'event_uuid'            =>Rule::exists('event_space', 'event_uuid')->where(function ($query) {

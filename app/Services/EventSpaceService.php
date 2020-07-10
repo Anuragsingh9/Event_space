@@ -24,13 +24,21 @@ class EventSpaceService {
         }
     }
 
-    public function update($param,$id) { 
-        $update = EventSpace::where('id','=',$id)->first()->update($param);
-        if (!$update){
+    public function update($param,$space_uuid) { 
+    //    dd( $param['space_name']);
+        // $fields_to_remove=['space_uuid'];
+        $updated = EventSpace::where('space_uuid','=',$space_uuid)->update(['space_name'=>$param['space_name'],
+        'space_short_name'=>$param['space_short_name'],'space_mood'=>$param['space_mood'],'max_capacity'=>$param['max_capacity'],
+        'is_vip_space'=>$param['is_vip_space'],'opening_hours'=>$param['opening_hours'],
+        'tags'=>$param['tags'],'space_image_url'=>$param['space_image_url'],'space_icon_url'=>$param['space_icon_url']]);
+        
+        
+
+        if (!$updated){
             throw new Exception();  // to throw the error instead of null so proper message can be shown// to throw exception so that proper msg can be shown
         }
         else{
-            return $update;
+            return $updated;
         }
     }
 }

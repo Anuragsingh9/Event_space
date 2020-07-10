@@ -13,7 +13,7 @@ class EventController extends Controller
             $event=BlueJeans::take(10)->get();
             return  EventResource::collection($event)->additional(['status'=>true]);
         }catch(\Exception $e){
-            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 200);
+            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 500);
         }
        
     }

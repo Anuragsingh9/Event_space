@@ -10,15 +10,13 @@ use App\EventUser;
 use App\Http\Resources\UserEventResource;
 class EventUserController extends Controller{
     public function __construct(){
-        $this->service=new EventUserService();
+        $this->service=EventUserService::getInstance();
     }
     public function eventNewUser(Request $request)
     {
-        $success = true;
         DB::connection('tenant')->beginTransaction();
         try{
 
-            EventUserService::getInstance();
 
             $param =[
                 'event_id'=>$request->event_id,
@@ -32,25 +30,17 @@ class EventUserController extends Controller{
            DB::connection('tenant')->commit();
         }catch(\Exception $e){
             DB::connection('tenant')->rollback();
-            $success = false;
-            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 200);
+            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 500);
 
         }
 
-        if($success){
-            return "Record Created";
-        }
-    
-        else{
-            return response()->json(['status' => false, 'message' => 'Event Not Created']);
-        }
+        
          
     }
 
 
     public function UpdateEventUserPresenter(Request $request)
     {
-        $success = true;
         DB::connection('tenant')->beginTransaction();
         try{
 
@@ -67,30 +57,16 @@ class EventUserController extends Controller{
            DB::connection('tenant')->commit();
         }catch(\Exception $e){
             DB::connection('tenant')->rollback();
-            $success = false;
-            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 200);
+            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 500);
 
-        }
-
-        if($success){
-            return "Record Created";
-        }
-    
-        else{
-            return response()->json(['status' => false, 'message' => 'Event Not Created']);
-        }
-         
+        }      
     }
     
 
     public function UpdateEventUserModerator(Request $request)
     {
-        $success = true;
         DB::connection('tenant')->beginTransaction();
         try{
-
-            EventUserService::getInstance();
-
             $param =[
                 'event_id'=>$request->event_id,
                 'user_id'=>$request->user_id,
@@ -102,16 +78,8 @@ class EventUserController extends Controller{
            DB::connection('tenant')->commit();
         }catch(\Exception $e){
             DB::connection('tenant')->rollback();
-            $success = false;
-            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 200);
-
-        }
-        if($success){
-            return "Record Created";
-        }
-        else{
-            return response()->json(['status' => false, 'message' => 'Event Not Created']);
-        } 
+            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 500);
+        }  
     }
 
     public function showUserEvents(){
@@ -119,13 +87,10 @@ class EventUserController extends Controller{
             $showEvent=EventUser::get();
             return  UserEventResource::collection($showEvent)->additional(['status'=>true]);
         }catch(\Exception $e){
-            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 200);
+            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 500);
 
-        }
-       
+        }  
     }
-
-
 }
 
 

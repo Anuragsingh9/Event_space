@@ -71,7 +71,7 @@ class CocktailEventController extends Controller {
             return $event;
         } catch (Exception $e) {
             DB::connection('tenant')->rollback();
-            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 200);
+            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 500);
         }
     }
     
@@ -113,7 +113,8 @@ class CocktailEventController extends Controller {
             return $event;
             DB::commit();
         }catch(\Exception $e){
-            DB::rollback();
+            DB::connection('tenant')->rollback();
+            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 500);
         }
     } 
 
@@ -134,7 +135,8 @@ class CocktailEventController extends Controller {
             return $event;
             DB::commit();
         }catch(\Exception $e){
-            DB::rollback();
+            DB::connection('tenant')->rollback();
+            return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 500);
         }
 
     }
