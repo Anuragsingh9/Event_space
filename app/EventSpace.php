@@ -15,7 +15,7 @@ class EventSpace extends Model
     protected $dates = ['deleted_at'];
     protected $primaryKey = 'space_uuid';
     protected $casts = ['opening_hours' => 'array'];
-    protected $uuidColumns=['event_uuid'];
+    protected $uuidColumns=['event_uuid','space_uuid'];
 
     protected $fillable = ['space_uuid', 'space_name','space_short_name','space_mood',
                            'max_capacity','space_image_url','space_icon_url','is_vip_space',

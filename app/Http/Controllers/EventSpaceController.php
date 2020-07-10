@@ -47,7 +47,7 @@ class EventSpaceController extends Controller
             EventSpaceService::getInstance();
 
             $param =[
-                'space_uuid'=>Uuid::uuid4(),
+                // 'space_uuid'=>Uuid::uuid4(),
                 'space_name'=>$request->space_name,
                 'space_short_name'=>$request->space_short_name,
                 'space_mood'=>$request->space_mood,

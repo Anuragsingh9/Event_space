@@ -33,18 +33,29 @@ class EventSpaceRequest extends FormRequest
     {
 
         return [
-            'space_name'=>['required','min:10','max:40',new Alpha],
-            'space_short_name'=>['required','min:10','max:40',new Alpha],
-            'space_mood'=>['required','min:10','max:40',new Alpha],
-            'max_capacity'=>'required|numeric|min:10|max:20',
-            // 'space_image_url'=>'required|url',
-            // 'space_icon_url'=>'required|url',
-            'is_vip_space'=>'required|in:0,1',
-            'opening_hours'=>'required|date_format:H:i',
-            'event_uuid'=>Rule::exists('event_space', 'event_uuid')->where(function ($query) {
-                $query->whereNull('deleted_at');
+            'space_name'            =>['required',
+                                        'min:' . config('cocktail.validations.space.space_name_min'),
+                                        'max:'. config('cocktail.validations.space.space_name_max'),new Alpha],
+            'space_short_name'      =>['required',
+                                        'min:' . config('cocktail.validations.space.space_short_name_min'),
+                                        'max:'. config('cocktail.validations.space.space_short_name_max'),new Alpha],
+            'space_mood'            =>['required',
+                                        'min:' . config('cocktail.validations.space.space_mood_min'),
+                                        'max:'. config('cocktail.validations.space.space_mood_max'),new Alpha],
+            'max_capacity'          =>['required','numeric',
+                                        'min:' . config('cocktail.validations.space.max_capacity_min'),
+                                        'max:'. config('cocktail.validations.space.max_capacity_max')],
+            'tags'                  =>['required',
+                                        'min:' . config('cocktail.validations.space.tags_min'),
+                                        'max:'. config('cocktail.validations.space.tags_max'),new Alpha],
+            'space_image_url'       =>'required|url',
+            'space_icon_url'        =>'required|url',
+            'is_vip_space'          =>'required|in:0,1',
+            'opening_hours'         =>'required|date_format:H:i',
+            'event_uuid'            =>Rule::exists('event_space', 'event_uuid')->where(function ($query) {
+                                    $query->whereNull('deleted_at');
             }),
-            'tags'=>['required','min:10','max:40',new Alpha],
+            
 
         ];
     }
