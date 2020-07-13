@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\EventSpaceRequest;
+use App\Http\Requests\EventSpaceUpdateRequest;
 use App\Http\Resources\EventSpaceResource;
 use Illuminate\Http\Request;
 use App\EventSpace;
 use Ramsey\Uuid\Uuid;
 use DB;
+use Auth;
 use App\Services\EventSpaceService;
 class EventSpaceController extends Controller
 {
@@ -23,7 +25,7 @@ class EventSpaceController extends Controller
     public function showEvent($event_id)
     {
         try{
-            $event=EventSpace::get()->where('event_uuid','=',$event_id);
+            $event= $this->service->getEventSpaces($event_id);
             return  EventSpaceResource::collection($event)->additional(['status'=>true]);
         }catch(\Exception $e){
             return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 500);
@@ -39,7 +41,8 @@ class EventSpaceController extends Controller
      */
     public function store(EventSpaceRequest $request)
     {
-        // DB::connection('tenant')->beginTransaction();
+        $user=Auth::user();
+        dd($user);
         DB::beginTransaction();
 
         try{
@@ -57,6 +60,7 @@ class EventSpaceController extends Controller
           $event= $this->service->create($param);
         //   DB::connection('tenant')->commit();
           DB::commit();
+          return new EventSpaceResource($event);  
 
         }catch(\Exception $e){
             // DB::connection('tenant')->rollback();
@@ -65,7 +69,6 @@ class EventSpaceController extends Controller
             return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 500);
 
         }
-            return new EventSpaceResource($event);  
     }
 
     /**
@@ -75,10 +78,11 @@ class EventSpaceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(EventSpaceRequest $request, $space_uuid)
+    public function update(EventSpaceUpdateRequest $request, $space_uuid)
     {
         // DB::connection('tenant')->beginTransaction();
         try{
+            
             $param =[
                 'space_name'=>$request->space_name,
                 'space_short_name'=>$request->space_short_name,
@@ -92,12 +96,13 @@ class EventSpaceController extends Controller
             ];
         $update=$this->service->update($param,$space_uuid);
         // DB::connection('tenant')->commit();
+        return new EventSpaceResource($update);
+
         }catch(\Exception $e){
             // DB::connection('tenant')->rollback();
             return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 500);
 
             
-            return new EventSpaceResource($updated);
         }
        
     }

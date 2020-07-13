@@ -38,7 +38,12 @@ Route::get('delete/{id}','BluejeansController@destroy');
 Route::post('newUser/eventuser','EventUserController@eventNewUser');
 Route::get('newUser/index','EventUserController@index');
 Route::post('newUser/UpdateEventUser','EventUserController@UpdateEventUserDetails')->name('update');
+Route::get('check','EventUserController@check');
 
 
 
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

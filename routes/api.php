@@ -26,11 +26,14 @@ Route::get('newUser/showUserEvent','EventUserController@showUserEvents');
 
 // Route::post('eventStore','EventSpaceController@store');
 // Route::post('eventStore/create/{id}','EventSpaceController@store');
-Route::post('eventStore','EventSpaceController@store');
 
+// Route::group(['middleware' => ['user']], function () {
+    Route::post('eventStore/update/{id}','EventSpaceController@update');
+    Route::get('eventStore/show/{event_id}','EventSpaceController@showEvent');
+    Route::post('eventStore','EventSpaceController@store')->middleware('auth:web');
 
-Route::post('eventStore/update/{id}','EventSpaceController@update');
-Route::get('eventStore/show/{event_id}','EventSpaceController@showEvent');
+// });
+
 
 Route::post('addorupdate','CocktailEventController@updateRegistrationFormDetail');
 Route::get('showEvent','EventController@showEvents');

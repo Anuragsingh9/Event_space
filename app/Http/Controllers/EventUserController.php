@@ -91,6 +91,11 @@ class EventUserController extends Controller{
 
         }  
     }
+
+    public function check(){
+        $user=Auth::user()->id;
+        dd($user);
+    }
 }
 
 

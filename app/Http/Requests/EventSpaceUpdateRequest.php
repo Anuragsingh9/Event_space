@@ -7,7 +7,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class EventSpaceRequest extends FormRequest
+class EventSpaceUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,11 +19,6 @@ class EventSpaceRequest extends FormRequest
         return true;
     }
 
-
-    protected function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json($validator->errors(), 422));
-    }
     /**
      * Get the validation rules that apply to the request.
      *
@@ -31,8 +26,8 @@ class EventSpaceRequest extends FormRequest
      */
     public function rules()
     {
-
         return [
+            'space_uuid'             =>Rule::exists('event_space', 'space_uuid'),
             'space_name'            =>['required',
                                         'min:' . config('cocktail.validations.space.space_name_min'),
                                         'max:'. config('cocktail.validations.space.space_name_max'),new Alpha],
@@ -52,12 +47,7 @@ class EventSpaceRequest extends FormRequest
             // 'space_icon_url'        =>'required|url',
             'is_vip_space'          =>'required|in:0,1',
             'opening_hours'         =>'required|date_format:H:i',
-            // // 'event_uuid'            =>['required',Rule::exists('event_space', 'event_uuid')->where(function ($query) {
-            // //                         $query->whereNull('deleted_at');
-            // })],
             
-
         ];
     }
 }
-
