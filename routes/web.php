@@ -47,3 +47,14 @@ Route::get('check','EventUserController@check');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// Get event space by uuid
+// Service: update pass param directly
+// Event User Controller
+// -> merge to controller
+// -> made changeRole method inside one method in controller and service
+// -> create validation for that
+// -> return event user resource
+// -> made getUserEvent method to get name of the user Event
+
+// created isUserBelongsToEvent method

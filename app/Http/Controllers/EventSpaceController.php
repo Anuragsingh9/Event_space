@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 use App\EventSpace;
 use Ramsey\Uuid\Uuid;
 use DB;
-use Auth;
+// use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\Services\EventSpaceService;
 class EventSpaceController extends Controller
 {
@@ -22,10 +23,10 @@ class EventSpaceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function showEvent($event_id)
+    public function showEvent($event_uuid)
     {
         try{
-            $event= $this->service->getEventSpaces($event_id);
+            $event= $this->service->getEventSpaces($event_uuid);
             return  EventSpaceResource::collection($event)->additional(['status'=>true]);
         }catch(\Exception $e){
             return response()->json(['status' => FALSE, 'msg' => 'Internal Server Error ', 'error' => $e->getMessage()], 500);
@@ -41,8 +42,7 @@ class EventSpaceController extends Controller
      */
     public function store(EventSpaceRequest $request)
     {
-        $user=Auth::user();
-        dd($user);
+        
         DB::beginTransaction();
 
         try{

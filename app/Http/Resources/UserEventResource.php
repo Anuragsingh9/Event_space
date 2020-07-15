@@ -15,8 +15,7 @@ class UserEventResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=> $this->id,
-            'event_id'=>$this->event_id,
+            'event_uuid'=>$this->event_uuid,
             'user_id'=>$this->user_id,
             'is_presenter'=>$this->is_presenter,
             'is_moderator'=>$this->is_moderator,

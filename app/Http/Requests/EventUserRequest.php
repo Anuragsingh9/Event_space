@@ -23,9 +23,11 @@ class EventUserRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            'presenter'=>'required_without:moderator|nullable',
-            'moderator'=>'required_without:presenter||nullable'
+            'is_presenter'=>'required_without:moderator|nullable',
+            'is_moderator'=>'required_without:presenter|nullable'        
         ];
+
     }
 }
